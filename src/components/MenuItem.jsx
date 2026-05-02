@@ -1,16 +1,18 @@
-import React from "react";
+import Link from 'next/link';
 
 const MenuItem = ({ text, url }) => {
-  const isExternal = url && !url.startsWith(window.location.origin);
+  if (!url) {
+    return <li><span>{text}</span></li>;
+  }
+
+  const isExternal = /^https?:\/\//.test(url);
 
   return (
     <li>
-      {url ? (
-        <a href={url} target={isExternal ? "_blank" : "_self"} rel="noopener noreferrer">
-          {text}
-        </a>
+      {isExternal ? (
+        <a href={url} target="_blank" rel="noopener noreferrer">{text}</a>
       ) : (
-        <span>{text}</span>
+        <Link href={url}>{text}</Link>
       )}
     </li>
   );

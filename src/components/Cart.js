@@ -1,43 +1,44 @@
-import React from 'react';
+"use client";
+
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, clearCart, addToCart } from '../store/cartSlice';
+import './css/Cart.css';
 
 const Cart = () => {
   const cartItems = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
-  // Функція для додавання товару в корзину, перевірка наявності в корзині
-  const handleAddToCart = (item) => {
-    const existingItem = cartItems.find(cartItem => cartItem.id === item.id);
-    if (!existingItem) {
-      dispatch(addToCart(item));
-    }
-  };
+  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  if (cartItems.length === 0) {
+    return (
+      <div className="cart">
+        <h1>Shopping Cart</h1>
+        <p className="cart-empty">Your cart is empty.</p>
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <div className="cart">
       <h1>Shopping Cart</h1>
-      {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
-        <ul>
-  {cartItems.map((item, index) => (
-    <li key={`${item.id}-${index}`}> {/* Додаємо індекс до ключа */}
-      {item.title} - ${item.price}
-      <button onClick={() => dispatch(removeFromCart(item.id))}>
-        Remove
-      </button>
-    </li>
-  ))}
-</ul>
-
-      )}
-      {cartItems.length > 0 && (
-        <button onClick={() => dispatch(clearCart())}>Clear Cart</button>
-      )}
-      <button onClick={() => handleAddToCart({ id: 1, title: 'New Item', price: 10 })}>
-        Add Item
-      </button>
+      <ul className="cart-items">
+        {cartItems.map(item => (
+          <li key={item.id} className="cart-item">
+            <span className="cart-item-title">{item.title}</span>
+            <span className="cart-item-price">${item.price.toFixed(2)}</span>
+            <span className="cart-item-qty">×{item.quantity}</span>
+            <div className="cart-item-actions">
+              <button onClick={() => dispatch(removeFromCart(item.id))}>−</button>
+              <button onClick={() => dispatch(addToCart(item))}>+</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="cart-footer">
+        <span className="cart-total">Total: ${total.toFixed(2)}</span>
+        <button className="cart-clear" onClick={() => dispatch(clearCart())}>Clear Cart</button>
+      </div>
     </div>
   );
 };

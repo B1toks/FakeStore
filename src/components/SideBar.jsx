@@ -1,18 +1,16 @@
-import React from "react";
-import Menu from "./Menu";
-import "./SideBar.css";
+import Menu from './Menu';
+import './css/SideBar.css';
 
 const SideBar = ({ title }) => {
   const menuItems = [
-    { text: "Home", url: "/" },
-    { text: "About", url: "/about" },
-    { text: "External Link", url: "https://example.com" },
-    { text: "No URL" },
+    { text: 'Catalog', url: '/' },
+    { text: 'Cart', url: '/cart' },
+    { text: 'GitHub ↗', url: 'https://github.com/B1toks' },
   ];
 
   return (
     <aside className="sidebar">
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       <Menu list={menuItems} />
     </aside>
   );

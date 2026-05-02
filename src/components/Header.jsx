@@ -1,12 +1,11 @@
-import React from "react";
-import Logo from "./Logo";
-import DateTime from "./DateTime";
-import "./Header.css";
+import Logo from './Logo';
+import DateTime from './DateTime';
+import './css/Header.css';
 
 const Header = ({ title }) => {
   return (
     <header className="header">
-      <Logo logoSrc="/assets/logo.png" />
+      <Logo />
       <h1>{title}</h1>
       <DateTime />
     </header>

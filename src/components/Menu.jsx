@@ -1,6 +1,5 @@
-import React from "react";
-import MenuItem from "./MenuItem";
-import "./Menu.css";
+import MenuItem from './MenuItem';
+import './css/Menu.css';
 
 const Menu = ({ list }) => {
   return (

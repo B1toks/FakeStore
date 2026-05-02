@@ -2,30 +2,30 @@ import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './cartSlice';
 import productsReducer from './productsSlice';
 
-const saveToLocalStorage = (state) => {
-  try {
-    const serializedState = JSON.stringify(state.cart.items);
-    localStorage.setItem('cart', serializedState);
-  } catch (e) {
-    console.error('Could not save cart state:', e);
-  }
-};
+const isBrowser = typeof window !== 'undefined';
 
-const loadFromLocalStorage = () => {
+const loadCartFromLocalStorage = () => {
+  if (!isBrowser) return undefined;
   try {
-    const serializedState = localStorage.getItem('cart');
-    if (serializedState === null) return undefined;
-    return JSON.parse(serializedState);
+    const serialized = localStorage.getItem('cart');
+    return serialized ? JSON.parse(serialized) : undefined;
   } catch (e) {
     console.error('Could not load cart state:', e);
     return undefined;
   }
 };
 
+const saveCartToLocalStorage = (state) => {
+  if (!isBrowser) return;
+  try {
+    localStorage.setItem('cart', JSON.stringify(state.cart.items));
+  } catch (e) {
+    console.error('Could not save cart state:', e);
+  }
+};
+
 const preloadedState = {
-  cart: {
-    items: loadFromLocalStorage() || [],
-  },
+  cart: { items: loadCartFromLocalStorage() || [] },
 };
 
 const store = configureStore({
@@ -36,6 +36,8 @@ const store = configureStore({
   preloadedState,
 });
 
-store.subscribe(() => saveToLocalStorage(store.getState()));
+if (isBrowser) {
+  store.subscribe(() => saveCartToLocalStorage(store.getState()));
+}
 
 export default store;

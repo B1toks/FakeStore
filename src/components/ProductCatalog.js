@@ -1,50 +1,73 @@
-import React, { useEffect } from 'react';
+"use client";
+
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { setProducts } from '../store/productsSlice';
 import { addToCart } from '../store/cartSlice';
-import './ProductCatalog.css';  
+import './css/ProductCatalog.css';
 
 const ProductCatalog = () => {
   const dispatch = useDispatch();
   const products = useSelector(state => state.products.list);
 
   useEffect(() => {
+    if (products.length > 0) return;
     const fetchProducts = async () => {
       const response = await fetch('https://fakestoreapi.com/products');
       const data = await response.json();
-      dispatch(setProducts(data)); 
+      dispatch(setProducts(data));
     };
-
     fetchProducts();
-  }, [dispatch]);
+  }, [dispatch, products.length]);
 
   return (
-    <div>
+    <section>
       <h1>Product Catalog</h1>
-      <div className="product-list">
+      <div className="product-catalog">
         {products.map(product => (
           <Product key={product.id} product={product} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
 const Product = ({ product }) => {
   const dispatch = useDispatch();
+  const [bought, setBought] = useState(false);
+  const timerRef = useRef(null);
 
-  const handleAddToCart = () => {
+  useEffect(() => () => clearTimeout(timerRef.current), []);
+
+  const handleAdd = () => {
     dispatch(addToCart(product));
+    setBought(true);
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setBought(false), 2000);
   };
 
   return (
-    <div className="product">
-      <img src={product.image} alt={product.title} className="product-image" />
+    <article className="product">
+      <div className="product-image">
+        <Image
+          src={product.image}
+          alt={product.title}
+          width={200}
+          height={200}
+          style={{ objectFit: 'contain' }}
+        />
+      </div>
       <h2>{product.title}</h2>
-      <p>{product.description}</p>
-      <p>${product.price}</p>
-      <button onClick={handleAddToCart}>Add to Cart</button>
-    </div>
+      <p className="product-price">${product.price.toFixed(2)}</p>
+      <button
+        onClick={handleAdd}
+        className={bought ? 'product-buy bought' : 'product-buy'}
+        disabled={bought}
+      >
+        {bought ? '✓ Куплено!' : 'Add to Cart'}
+      </button>
+    </article>
   );
 };
 

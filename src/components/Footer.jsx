@@ -1,17 +1,15 @@
-import React from "react";
-import Menu from "./Menu";
-import "./Footer.css";
+import Menu from './Menu';
+import './css/Footer.css';
 
 const Footer = ({ title }) => {
   const footerMenuItems = [
-    { text: "Privacy Policy", url: "/privacy" },
-    { text: "Terms of Service", url: "/terms" },
-    { text: "Contact Us", url: "/contact" },
+    { text: 'GitHub', url: 'https://github.com/B1toks' },
+    { text: 'Portfolio', url: 'https://www.honchar.dev' },
   ];
 
   return (
     <footer className="footer">
-      <h1>{title}</h1>
+      <p>{title}</p>
       <Menu list={footerMenuItems} />
     </footer>
   );

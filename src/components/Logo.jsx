@@ -1,13 +1,13 @@
-import React from "react";
-import "./Logo.css";
-
-import logo from "../assets/logo.png";
+import Link from 'next/link';
+import Image from 'next/image';
+import logo from '../assets/logo.png';
+import './css/Logo.css';
 
 const Logo = () => {
   return (
-    <a href="/" className="logo">
-      <img src={logo} alt="Logo" />
-    </a>
+    <Link href="/" className="logo">
+      <Image src={logo} alt="FakeStore logo" width={48} height={48} priority />
+    </Link>
   );
 };
 

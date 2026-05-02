@@ -1,0 +1,9 @@
+.datetime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.8rem;
+  color: #666;
+  font-variant-numeric: tabular-nums;
+  min-width: 120px;
+}

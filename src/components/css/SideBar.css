@@ -1,0 +1,15 @@
+.sidebar {
+  background: #f9f9f9;
+  border-right: 1px solid #e5e5e5;
+  padding: 20px 16px;
+  width: 220px;
+  flex-shrink: 0;
+}
+
+.sidebar h2 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin: 0 0 12px;
+}
