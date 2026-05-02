@@ -2,7 +2,7 @@
 
 A small **Next.js 16 + Redux Toolkit** demo store consuming the public [FakeStore API](https://fakestoreapi.com).
 
-🛒 **Live demo:** _coming soon (Vercel deploy in progress)_
+🛒 **Live demo:** **[fakestore-current.vercel.app](https://fakestore-current.vercel.app)**
 
 > Originally built as a CRA exercise series (`ex4 → ex7 → +visual v0.9`, see commit history), then fully migrated to Next.js 16 + React 19 with the App Router. The exercise commits are preserved on `master` so the evolution stays visible.
 
