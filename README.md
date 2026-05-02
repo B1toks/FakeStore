@@ -1,39 +1,25 @@
 # FakeStore
 
-A small **Next.js 16 + Redux Toolkit** demo store consuming the public [FakeStore API](https://fakestoreapi.com).
+A small e-commerce prototype consuming the public [FakeStoreAPI](https://fakestoreapi.com) — product listing, single-product view, cart with Redux Toolkit state. Migrated from Create React App to **Next.js 15 (App Router)** as a learning exercise.
 
-🛒 **Live demo:** **[fakestore-current.vercel.app](https://fakestore-current.vercel.app)**
-
-> Originally built as a CRA exercise series (`ex4 → ex7 → +visual v0.9`, see commit history), then fully migrated to Next.js 16 + React 19 with the App Router. The exercise commits are preserved on `master` so the evolution stays visible.
+🛒 **Live demo:** **[fake-store-b1toks.vercel.app](#)** *(replace with your Vercel URL)*
 
 ---
 
-## Features
+## What it does
 
-- Two routes via the App Router: **`/` (catalog)** and **`/cart`**
-- Live product grid pulled from `https://fakestoreapi.com/products`
-- Optimised remote images via `next/image` (`fakestoreapi.com` whitelisted in `next.config.mjs`)
-- Add-to-cart with quantity tracking and total via Redux Toolkit
-- Cart contents **persist across reloads** (`localStorage`, SSR-safe)
-- "✓ Куплено!" feedback button state with auto-revert after 2 s
-- Live clock in the header (hydration-safe — no SSR/CSR mismatch)
-- Custom 404 (`app/not-found.js`) and Suspense fallback (`app/loading.js`)
-- Per-route `metadata` exports for SEO
+- Fetches products from `fakestoreapi.com`
+- Product grid with category filtering
+- Single-product detail page (dynamic route)
+- Add-to-cart with quantity controls
+- Cart state persists across navigation (Redux Toolkit)
 
-## Tech stack
+## Tech
 
-| Layer        | Choice                                  | Notes                                                 |
-| ------------ | --------------------------------------- | ----------------------------------------------------- |
-| Framework    | **Next.js 16** (App Router) + React 19  | Server Components by default; `"use client"` minimal  |
-| State        | **Redux Toolkit** + `react-redux`       | Modern `useSelector` / `useDispatch` (no `connect()`) |
-| Persistence  | `localStorage`                          | Wrapped with `typeof window` guards for SSR safety    |
-| Images       | `next/image`                            | `remotePatterns` whitelisting `fakestoreapi.com/img`  |
-| Routing      | `next/link`                             | Client-side navigation in SideBar / Logo / Footer     |
-| Typography   | `next/font/google` (Geist)              | Self-hosted, no extra request                         |
-| Styling      | Hand-written CSS, per-component files   | No framework, no CSS-in-JS                            |
-| Data source  | [FakeStore API](https://fakestoreapi.com) | Public REST, no auth                                |
-
-No Tailwind, no UI kit, no test framework — by design, this is a small demo.
+- **Next.js 15** + **React 19** — App Router, server components where it makes sense
+- **Redux Toolkit** + `react-redux` — predictable state for cart, slice-based architecture
+- **FakeStoreAPI** — external REST source for products
+- Hand-written CSS / minimal styling
 
 ## Run locally
 
@@ -44,52 +30,19 @@ npm install
 npm run dev
 ```
 
-Then open <http://localhost:3000>.
+Open <http://localhost:3000>.
 
 Build for production:
 
 ```bash
 npm run build
-npm start
-```
-
-## Project structure
-
-```
-src/
-├── app/
-│   ├── layout.js          ← root layout, metadata, Geist font, full layout
-│   ├── page.js            ← / (catalog)
-│   ├── cart/page.js       ← /cart
-│   ├── providers.js       ← "use client" — Redux Provider wrapper
-│   ├── loading.js         ← Suspense fallback
-│   ├── not-found.js       ← custom 404
-│   └── global.css
-├── components/
-│   ├── ProductCatalog.js  ← "use client" — fetch + grid + Product cards
-│   ├── Cart.js            ← "use client" — items, quantities, total
-│   ├── Header / Footer / SideBar / Logo / Menu / MenuItem (RSC)
-│   ├── DateTime / CurrentDate / CurrentTime  (live clock, mounted-state)
-│   └── css/               ← per-component styles
-└── store/
-    ├── store.js           ← configureStore + SSR-safe localStorage
-    ├── cartSlice.js       ← addToCart / removeFromCart / clearCart
-    └── productsSlice.js   ← setProducts
+npm run start
 ```
 
 ## What I focused on
 
-This project was my first time:
-
-- **Wiring Redux Toolkit into a real React app** — slices, selectors, hook-based usage, dropping the deprecated `connect()` HOC
-- **Migrating an existing app between bundlers** — moving from CRA to Next.js's App Router, including:
-  - Splitting components into Server vs Client (sane defaults — most stay RSC, `"use client"` only where state/effects exist)
-  - Wrapping client-only code (Redux Provider, `localStorage`) so it doesn't crash during SSR
-  - Hydration-safe live clock (no console warnings, no flash)
-  - Configuring `next/image` `remotePatterns` for an external API
-- **Persisting client state without a backend** — `localStorage` cart that survives reloads
-- **Cleaning up exercise-grade code** — removing CRA boilerplate, dead modules, mismatched CSS classes, unused scaffolds
+This is the project where Redux Toolkit clicked for me — moving cart logic out of component state into a slice with explicit reducers and selectors. The CRA → Next.js migration was my first time switching bundlers/runtimes on an existing app and forced me to think about what's environment-dependent vs. pure logic.
 
 ---
 
-Built by **Oleksandr Honchar** — [www.honchar.dev](https://www.honchar.dev) · [GitHub](https://github.com/B1toks)
+Built by **Oleksandr Honchar** · [honchar.dev](https://www.honchar.dev) · [LinkedIn](https://www.linkedin.com/in/honchar-oleksandr/)
